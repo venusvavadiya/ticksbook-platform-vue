@@ -1,6 +1,6 @@
 <template lang="pug">
   site-layout
-    p landing
+    p 404
 </template>
 
 <script lang="ts">
