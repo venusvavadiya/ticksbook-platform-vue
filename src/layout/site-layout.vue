@@ -13,14 +13,24 @@
 <script lang="ts">
 import Vue from 'vue';
 
-function getDarkModePreference() {
+function isDarkModePreference(): boolean {
   const query = '(prefers-color-scheme: dark)';
   return window.matchMedia(query).matches;
 }
 
+function addDarkModePreferenceEventListener(listener: (x: boolean) => void): void {
+  const query = '(prefers-color-scheme: dark)';
+  window.matchMedia(query).addEventListener('change', (e) => {
+    listener(e.matches);
+  });
+}
+
 export default Vue.extend({
   created(): void {
-    this.$vuetify.theme.dark = getDarkModePreference();
+    this.$vuetify.theme.dark = isDarkModePreference();
+    addDarkModePreferenceEventListener((isDark) => {
+      this.$vuetify.theme.dark = isDark;
+    });
   },
 });
 </script>
