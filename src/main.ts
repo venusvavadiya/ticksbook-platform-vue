@@ -1,13 +1,16 @@
 import Vue from 'vue';
-import App from './App.vue';
 import './registerServiceWorker';
-import router from './router';
+import i18n from './plugins/i18n';
+import router from './plugins/router';
+import vuetify from './plugins/vuetify';
 import store from './store';
 
 Vue.config.productionTip = false;
 
 new Vue({
+  i18n,
   router,
   store,
-  render: (h) => h(App),
+  vuetify,
+  render: (h) => h('router-view'),
 }).$mount('#app');
