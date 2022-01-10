@@ -2,8 +2,9 @@
   v-app
     v-app-bar(app elevation="0")
       v-row(justify="center")
-        router-link(:to="{ name: 'index' }")
-          v-img(src="../assets/logo.png" width="48")
+        v-col(cols="auto")
+          router-link(:to="{ name: 'index' }")
+            v-img(src="../assets/logo.png" width="40")
 
     v-main
       slot
