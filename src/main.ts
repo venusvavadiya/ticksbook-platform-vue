@@ -1,12 +1,14 @@
 import Vue from 'vue';
 import './registerServiceWorker';
+import i18n from './plugins/i18n';
 import router from './plugins/router';
-import store from './store';
 import vuetify from './plugins/vuetify';
+import store from './store';
 
 Vue.config.productionTip = false;
 
 new Vue({
+  i18n,
   router,
   store,
   vuetify,
