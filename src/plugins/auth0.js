@@ -67,12 +67,13 @@ function useAuth0({
   return instance;
 }
 
-Vue.use({
+export default {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   install(vue, options) {
     // eslint-disable-next-line no-param-reassign
     vue.prototype.$auth0 = useAuth0(options);
   },
-});
+};
 
 // eslint-disable-next-line max-len
 // eslint-disable-next-line import/prefer-default-export, @typescript-eslint/explicit-module-boundary-types
