@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import './registerServiceWorker';
+import './plugins/auth0';
 import i18n from './plugins/i18n';
 import router from './plugins/router';
 import vuetify from './plugins/vuetify';
