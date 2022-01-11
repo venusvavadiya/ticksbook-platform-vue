@@ -1,6 +1,10 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
-import Landing from '../views/landing.vue';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import auth0 from '@/guards/auth0';
+import Dashboard from '@/views/dashboard/index.vue';
+import Landing from '@/views/landing.vue';
 
 Vue.use(VueRouter);
 
@@ -12,9 +16,16 @@ const routes: Array<RouteConfig> = [
   },
 
   {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: Dashboard,
+    beforeEnter: auth0,
+  },
+
+  {
     path: '*',
     name: '404',
-    component: () => import('../views/404.vue'),
+    component: () => import('@/views/404.vue'),
   },
 ];
 
