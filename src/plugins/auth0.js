@@ -74,7 +74,8 @@ Vue.use({
   },
 });
 
-// eslint-disable-next-line import/prefer-default-export
+// eslint-disable-next-line max-len
+// eslint-disable-next-line import/prefer-default-export, @typescript-eslint/explicit-module-boundary-types
 export function getAuth0Service() {
   return instance;
 }

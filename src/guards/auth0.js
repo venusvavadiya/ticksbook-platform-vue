@@ -1,5 +1,6 @@
 import { getAuth0Service } from '@/plugins/auth0';
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function Auth0Guard(to, _, next) {
   const authService = getAuth0Service();
 
