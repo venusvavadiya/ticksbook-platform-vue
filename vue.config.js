@@ -3,6 +3,12 @@ module.exports = {
     'vuetify',
   ],
 
+  pages: {
+    index: {
+      entry: 'src/main.js',
+    },
+  },
+
   pwa: {
     name: 'TicksBook',
     display: 'standalone',
