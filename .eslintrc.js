@@ -1,6 +1,7 @@
 module.exports = {
   root: true,
   env: {
+    jest: true,
     node: true,
   },
   extends: [
@@ -13,16 +14,6 @@ module.exports = {
   },
   rules: {
     'import/no-extraneous-dependencies': 'off',
+    'linebreak-style': 'off',
   },
-  overrides: [
-    {
-      files: [
-        '**/__tests__/*.{j,t}s?(x)',
-        '**/tests/unit/**/*.spec.{j,t}s?(x)',
-      ],
-      env: {
-        jest: true,
-      },
-    },
-  ],
 };
