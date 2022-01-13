@@ -11,6 +11,12 @@ const messages = {
         content: 'A sample application to track our Options Portfolio built using Clean Architecture, CQRS, and EventSourcing Patterns.',
       },
     },
+
+    auth: {
+      dashboard: 'Dashboard',
+      login: 'Login',
+      logout: 'Logout',
+    },
   },
 };
 
