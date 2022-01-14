@@ -47,7 +47,7 @@ function useAuth0({
 
     methods: {
       getAccessToken(o) {
-        return this.auth0Client.getTokenSilently(o);
+        return this.auth0Client?.getTokenSilently(o);
       },
 
       isLoggedIn() {
@@ -55,11 +55,11 @@ function useAuth0({
       },
 
       login(o) {
-        return this.auth0Client.loginWithRedirect(o);
+        return this.auth0Client?.loginWithRedirect(o);
       },
 
       logout(o) {
-        return this.auth0Client.logout(o);
+        return this.auth0Client?.logout(o);
       },
     },
   });

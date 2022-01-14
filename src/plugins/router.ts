@@ -4,6 +4,8 @@ import VueRouter, { RouteConfig } from 'vue-router';
 // @ts-ignore
 import auth0 from '@/guards/auth0';
 import Dashboard from '@/views/dashboard/index.vue';
+import OrderBook from '@/views/dashboard/order-book.vue';
+import OrderBooks from '@/views/dashboard/order-books.vue';
 import Landing from '@/views/landing.vue';
 
 Vue.use(VueRouter);
@@ -19,6 +21,20 @@ const routes: Array<RouteConfig> = [
     path: '/dashboard',
     name: 'dashboard',
     component: Dashboard,
+    beforeEnter: auth0,
+  },
+
+  {
+    path: '/dashboard/order-books/:id',
+    name: 'order-book',
+    component: OrderBook,
+    beforeEnter: auth0,
+  },
+
+  {
+    path: '/dashboard/order-books',
+    name: 'order-books',
+    component: OrderBooks,
     beforeEnter: auth0,
   },
 
