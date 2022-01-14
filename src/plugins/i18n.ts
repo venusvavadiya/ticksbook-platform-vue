@@ -5,12 +5,13 @@ Vue.use(VueI18n);
 
 const messages = {
   en: {
-    landing: {
-      hero: {
-        title: 'TicksBook',
-        content: 'A sample application to track our Options Portfolio built using Clean Architecture, CQRS, and EventSourcing Patterns.',
-      },
-    },
+    heroTitle: 'TicksBook',
+    heroContent: 'A sample application to track our Options Portfolio built using Clean Architecture, CQRS, and EventSourcing Patterns.',
+
+    login: 'Login',
+    logout: 'Logout',
+    dashboard: 'Dashboard',
+    orderBooks: 'No Order Book | 1 Order Book | {count} Order Books',
   },
 };
 
