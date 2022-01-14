@@ -11,6 +11,13 @@
     .text-center.my-12(v-else)
       p {{ $tc('orderBooks', 0) }}
 
+    v-container
+      v-card
+        v-card-text
+          create-order-book-fields(:name.sync="createOrderBookDialog.name")
+
+        v-card-text Name: {{ createOrderBookDialog.name }}
+
     v-btn(
       fab
       fixed
@@ -22,17 +29,23 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import CreateOrderBookFields from '@/components/create-order-book-fields.vue';
 import OrderBookList from '@/components/order-book-list.vue';
 import AppLayout from '@/layout/app-layout.vue';
 
 export default Vue.extend({
   components: {
     AppLayout,
+    CreateOrderBookFields,
     OrderBookList,
   },
 
   data() {
     return {
+      createOrderBookDialog: {
+        name: '',
+      },
+
       orderBooks: [
         {
           id: 'o1d1',
