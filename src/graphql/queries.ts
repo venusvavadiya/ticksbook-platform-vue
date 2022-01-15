@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-export const ORDER_BOOKS = gql`
+export const GQL_ORDER_BOOKS = gql`
   query orderBooks {
     orderBooks {
       id
@@ -9,7 +9,7 @@ export const ORDER_BOOKS = gql`
   }
 `;
 
-export const ORDER_BOOK = gql`
+export const GQL_ORDER_BOOK = gql`
   query orderBook($id: String!) {
     orderBook(id: $id) {
       id
