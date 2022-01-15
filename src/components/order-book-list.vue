@@ -1,5 +1,5 @@
 <template lang="pug">
-  v-card
+  v-card(:loading="loading")
     v-list
       v-list-item(
         v-for="orderBook in orderBooks"
@@ -14,6 +14,7 @@ import Vue from 'vue';
 
 export default Vue.extend({
   props: {
+    loading: Boolean,
     orderBooks: Array,
     route: String,
   },

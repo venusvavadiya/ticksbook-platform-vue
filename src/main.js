@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import apolloProvider from '@/plugins/apollo-provider';
 import auth0 from '@/plugins/auth0';
 import i18n from '@/plugins/i18n';
 import router from '@/plugins/router';
@@ -26,6 +27,7 @@ Vue.use(auth0, {
 });
 
 new Vue({
+  apolloProvider,
   i18n,
   router,
   store,
