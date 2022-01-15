@@ -11,18 +11,27 @@
     .text-center.my-12(v-else)
       p {{ $tc('orderBooks', 0) }}
 
-    v-container
+    v-dialog(
+      v-model="isOrderBookDialog"
+      persistent
+    )
       v-card
-        v-card-text
-          create-order-book-fields(:name.sync="createOrderBookDialog.name")
+        v-card-title {{ $t('createOrderBook') }}
 
-        v-card-text Name: {{ createOrderBookDialog.name }}
+        v-card-text
+          create-order-book-fields(:name.sync="createOrderBookField.name")
+
+        v-card-actions
+          v-spacer
+          v-btn(text @click="cancelCreateOrderBookDialog") Cancel
+          v-btn(text) Done
 
     v-btn(
       fab
       fixed
       bottom
       right
+      @click="showCreateOrderBookDialog"
     )
       v-icon mdi-plus
 </template>
@@ -42,9 +51,11 @@ export default Vue.extend({
 
   data() {
     return {
-      createOrderBookDialog: {
+      createOrderBookField: {
         name: '',
       },
+
+      isOrderBookDialog: false,
 
       orderBooks: [
         {
@@ -60,6 +71,17 @@ export default Vue.extend({
         },
       ],
     };
+  },
+
+  methods: {
+    showCreateOrderBookDialog() {
+      this.isOrderBookDialog = true;
+    },
+
+    cancelCreateOrderBookDialog() {
+      this.isOrderBookDialog = false;
+      this.createOrderBookField.name = '';
+    },
   },
 });
 </script>

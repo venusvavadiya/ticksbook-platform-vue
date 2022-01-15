@@ -1,10 +1,9 @@
 <template lang="pug">
   v-row
     v-col
-      v-text-field(
-        outlined
-        hide-details="auto"
+      ui-text-field(
         :label="$t('name')"
+        :value="name"
         @input="$emit('update:name', $event)"
       )
 </template>
