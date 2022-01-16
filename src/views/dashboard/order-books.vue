@@ -72,6 +72,10 @@ export default Vue.extend({
     },
   },
 
+  mounted() {
+    this.$apollo.queries.orderBooks.refetch();
+  },
+
   methods: {
     cancelCreateDialog() {
       this.resetCreateDialog();
