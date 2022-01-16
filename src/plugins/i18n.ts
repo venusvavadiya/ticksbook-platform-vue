@@ -11,6 +11,9 @@ const messages = {
     login: 'Login',
     logout: 'Logout',
     dashboard: 'Dashboard',
+    createOrderBook: 'Create Order Book',
+    name: 'Name',
+    orderBook: 'Order Book',
     orderBooks: 'No Order Book | 1 Order Book | {count} Order Books',
   },
 };
