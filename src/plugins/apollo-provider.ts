@@ -10,13 +10,10 @@ import VueApollo from 'vue-apollo';
 
 Vue.use(VueApollo);
 
-const isDev = process.env.NODE_ENV === 'development';
-const baseUrl = isDev ? 'http://localhost:8000' : 'https://ticksbook-platform-api.herokuapp.com';
-
-const httpLink = new HttpLink({ uri: `${baseUrl}/graphql` });
+const httpLink = new HttpLink({ uri: process.env.VUE_APP_PLATFORM_HTTP_URL });
 
 const wsLink = new WebSocketLink({
-  uri: isDev ? 'ws://localhost:8000/graphql' : 'wss://ticksbook-platform-api.herokuapp.com/graphql',
+  uri: process.env.VUE_APP_PLATFORM_WS_URL as string,
   options: { reconnect: true },
 });
 

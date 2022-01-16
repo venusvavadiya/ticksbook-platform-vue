@@ -13,8 +13,8 @@ Vue.config.productionTip = false;
 Vue.component('ui-text-field', UITextField);
 
 Vue.use(auth0, {
-  clientId: process.env.VUE_APP_AUTH0_CLIENT_ID ?? 'vxEMhugPYXIJ19jrDAw6ICDbI5ZkQTdU',
-  domain: process.env.VUE_APP_AUTH0_DOMAIN ?? 'sn-main-development.us.auth0.com',
+  clientId: process.env.VUE_APP_AUTH0_CLIENT_ID,
+  domain: process.env.VUE_APP_AUTH0_DOMAIN,
 
   onFailure(e) {
     // eslint-disable-next-line no-console
