@@ -16,7 +16,7 @@
     v-container(v-else)
       p.text-center.my-12 {{ $t('noData') }}
 
-    v-dialog(v-model="renameDialog.show" persistent)
+    ui-dialog(v-model="renameDialog.show")
       v-card(:loading="renameDialog.loading")
         v-card-title {{ $t('renameOrderBook') }}
 

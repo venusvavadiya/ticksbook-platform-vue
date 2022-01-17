@@ -12,7 +12,7 @@
     v-container(v-if="orderBooks.length == 0")
       p.text-center.my-12 {{ $tc('orderBooks', 0) }}
 
-    v-dialog(v-model="createDialog.show" persistent)
+    ui-dialog(v-model="createDialog.show")
       v-card(:loading="createDialog.loading")
         v-card-title {{ $t('createOrderBook') }}
 
