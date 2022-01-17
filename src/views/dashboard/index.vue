@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import AppLayout from '@/layout/app-layout.vue';
+import AppLayout from '@/layouts/app-layout.vue';
 
 export default Vue.extend({
   components: {

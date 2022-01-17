@@ -12,7 +12,7 @@
     v-container(v-if="orderBooks.length == 0")
       p.text-center.my-12 {{ $tc('orderBooks', 0) }}
 
-    v-dialog(v-model="createDialog.show" persistent)
+    ui-dialog(v-model="createDialog.show")
       v-card(:loading="createDialog.loading")
         v-card-title {{ $t('createOrderBook') }}
 
@@ -22,24 +22,17 @@
 
         v-card-actions
           v-spacer
-          v-btn(text :disabled="createDialog.loading" @click="cancelCreateDialog") Cancel
-          v-btn(text :disabled="createDialog.loading" @click="doneCreateDialog") Done
+          v-btn(text :disabled="createDialog.loading" @click="cancelCreateDialog") {{ $t('cancel') }}
+          v-btn(text :disabled="createDialog.loading" @click="doneCreateDialog") {{ $t('done') }}
 
-    v-btn(
-      fab
-      fixed
-      bottom
-      right
-      @click="showCreateDialog"
-    )
-      v-icon mdi-plus
+    v-btn(fab fixed bottom right @click="showCreateDialog"): v-icon mdi-plus
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import CreateOrderBookFields from '@/components/create-order-book-fields.vue';
 import OrderBookList from '@/components/order-book-list.vue';
-import AppLayout from '@/layout/app-layout.vue';
+import AppLayout from '@/layouts/app-layout.vue';
 import { GQL_ORDER_BOOKS } from '@/graphql/queries';
 import { GQL_CREATE_ORDER_BOOK } from '@/graphql/mutations';
 
@@ -72,16 +65,19 @@ export default Vue.extend({
     },
   },
 
+  mounted() {
+    this.$apollo.queries.orderBooks.refetch();
+  },
+
   methods: {
     cancelCreateDialog() {
       this.resetCreateDialog();
-      this.resetCreateFields();
     },
 
     async doneCreateDialog() {
-      this.createDialog.loading = true;
-      const variables = { orderBookName: this.createField.name };
       try {
+        this.createDialog.loading = true;
+        const variables = { orderBookName: this.createField.name };
         const response = await this.$apollo.mutate({ mutation: GQL_CREATE_ORDER_BOOK, variables });
         const orderBookId = response.data.createOrderBook;
         await this.$router.push({ name: 'order-book', params: { id: orderBookId } });
@@ -90,20 +86,17 @@ export default Vue.extend({
         console.log(e);
       } finally {
         this.resetCreateDialog();
-        this.resetCreateFields();
       }
     },
 
     showCreateDialog() {
       this.createDialog.show = true;
+      this.createField.name = '';
     },
 
     resetCreateDialog() {
       this.createDialog.loading = false;
       this.createDialog.show = false;
-    },
-
-    resetCreateFields() {
       this.createField.name = '';
     },
   },
