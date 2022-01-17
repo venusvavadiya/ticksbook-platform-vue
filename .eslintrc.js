@@ -15,5 +15,6 @@ module.exports = {
   rules: {
     'import/no-extraneous-dependencies': 'off',
     'linebreak-style': 'off',
+    'max-len': 'off',
   },
 };

@@ -5,7 +5,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import SiteLayout from '@/layout/site-layout.vue';
+import SiteLayout from '@/layouts/site-layout.vue';
 
 export default Vue.extend({
   components: {
