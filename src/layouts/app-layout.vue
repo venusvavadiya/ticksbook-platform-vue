@@ -11,6 +11,7 @@
           v-img(src="../assets/logo.png" width="40")
 
     v-main
+      v-progress-linear(v-if="$apollo.loading" indeterminate)
       slot
 </template>
 

@@ -12,7 +12,7 @@
     v-container(v-if="orderBooks.length == 0")
       p.text-center.my-12 {{ $tc('orderBooks', 0) }}
 
-    v-dialog(v-model="createDialog.show" persistent)
+    ui-dialog(v-model="createDialog.show")
       v-card(:loading="createDialog.loading")
         v-card-title {{ $t('createOrderBook') }}
 
@@ -25,14 +25,7 @@
           v-btn(text :disabled="createDialog.loading" @click="cancelCreateDialog") {{ $t('cancel') }}
           v-btn(text :disabled="createDialog.loading" @click="doneCreateDialog") {{ $t('done') }}
 
-    v-btn(
-      fab
-      fixed
-      bottom
-      right
-      @click="showCreateDialog"
-    )
-      v-icon mdi-plus
+    v-btn(fab fixed bottom right @click="showCreateDialog"): v-icon mdi-plus
 </template>
 
 <script lang="ts">
