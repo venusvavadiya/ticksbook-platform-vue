@@ -16,6 +16,7 @@ const messages = {
     name: 'Name',
     done: 'Done',
     cancel: 'Cancel',
+    rename: 'Rename',
     noData: 'No data',
     archive: 'Archive',
     unarchive: 'Unarchive',

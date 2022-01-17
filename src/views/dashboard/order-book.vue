@@ -2,30 +2,29 @@
   app-layout
     v-container(v-if="orderBook")
       v-card
-        v-card-title(
-          :style="{ cursor: 'pointer' }"
-          @click="showRenameDialog"
-        ) {{ orderBook.name }}
-
-        v-card-actions
+        v-card-title
+          span {{ orderBook.name }}
           v-spacer
 
-          v-btn.ma-2(v-if="orderBook.isArchived" outlined @click="unarchive") {{ $t('unarchive') }}
-          v-btn.ma-2(v-else outlined @click="archive") {{ $t('archive') }}
+          v-menu(bottom left)
+            template(#activator="{ on, attrs }")
+              v-btn(icon v-bind="attrs" v-on="on"): v-icon mdi-dots-vertical
 
-    v-container(v-else)
-      p.text-center.my-12 {{ $t('noData') }}
+            v-list
+              v-list-item(@click="showRenameDialog"): v-list-item-title {{ $t('rename') }}
+              v-list-item(v-if="orderBook.isArchived" @click="unarchive"): v-list-item-title {{ $t('unarchive') }}
+              v-list-item(v-else @click="archive"): v-list-item-title {{ $t('archive') }}
+
+    v-container(v-else): p.text-center.my-12 {{ $t('noData') }}
 
     ui-dialog(v-model="renameDialog.show")
       v-card(:loading="renameDialog.loading")
         v-card-title {{ $t('renameOrderBook') }}
 
-        v-card-text
-          v-form(@submit.prevent="doneRenameDialog")
-            rename-order-book-fields(:name.sync="renameField.name")
+        v-card-text: v-form(@submit.prevent="doneRenameDialog")
+          rename-order-book-fields(:name.sync="renameField.name")
 
-        v-card-actions
-          v-spacer
+        v-card-actions: v-spacer
           v-btn(text :disabled="renameDialog.loading" @click="cancelRenameDialog") {{ $t('cancel') }}
           v-btn(text :disabled="renameDialog.loading" @click="doneRenameDialog") {{ $t('done') }}
 </template>
