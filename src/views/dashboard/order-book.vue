@@ -24,7 +24,8 @@
         v-card-text: v-form(@submit.prevent="doneRenameDialog")
           rename-order-book-fields(:name.sync="renameField.name")
 
-        v-card-actions: v-spacer
+        v-card-actions
+          v-spacer
           v-btn(text :disabled="renameDialog.loading" @click="cancelRenameDialog") {{ $t('cancel') }}
           v-btn(text :disabled="renameDialog.loading" @click="doneRenameDialog") {{ $t('done') }}
 </template>

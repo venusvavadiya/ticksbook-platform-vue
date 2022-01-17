@@ -20,7 +20,8 @@
           v-form(@submit.prevent="doneCreateDialog")
             create-order-book-fields(:name.sync="createField.name")
 
-        v-card-actions: v-spacer
+        v-card-actions
+          v-spacer
           v-btn(text :disabled="createDialog.loading" @click="cancelCreateDialog") {{ $t('cancel') }}
           v-btn(text :disabled="createDialog.loading" @click="doneCreateDialog") {{ $t('done') }}
 
