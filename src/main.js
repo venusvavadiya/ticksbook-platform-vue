@@ -4,6 +4,7 @@ import auth0 from '@/plugins/auth0';
 import i18n from '@/plugins/i18n';
 import router from '@/plugins/router';
 import vuetify from '@/plugins/vuetify';
+import UIDataTable from '@/ui/ui-data-table.vue';
 import UIDialog from '@/ui/ui-dialog.vue';
 import UITextField from '@/ui/ui-text-field.vue';
 import '@/registerServiceWorker';
@@ -11,17 +12,15 @@ import store from '@/store';
 
 Vue.config.productionTip = false;
 
+Vue.component('ui-data-table', UIDataTable);
 Vue.component('ui-dialog', UIDialog);
 Vue.component('ui-text-field', UITextField);
 
 Vue.use(auth0, {
   clientId: process.env.VUE_APP_AUTH0_CLIENT_ID,
   domain: process.env.VUE_APP_AUTH0_DOMAIN,
-
-  onFailure(e) {
-    // eslint-disable-next-line no-console
-    console.log(e);
-  },
+  // eslint-disable-next-line no-console
+  onFailure: console.log,
 
   async onSuccess(appState) {
     await router.push(appState?.targetUrl ?? window.location.pathname);
