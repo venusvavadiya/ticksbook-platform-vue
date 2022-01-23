@@ -16,8 +16,7 @@
         :hook-done="() => renameOrderBook(orderBook.id, renameField.name)"
         :hook-reset="() => resetRenameField()"
       )
-        v-card-text
-          rename-order-book-fields(:name.sync="renameField.name")
+        rename-order-book-fields(:name.sync="renameField.name")
 
     v-container(v-else)
       p.text-center.my-12 {{ $t('noData') }}
@@ -30,19 +29,19 @@ import Vue from 'vue';
 import OrderBookDetailCard from '@/components/order-book-detail-card.vue';
 import RenameOrderBookFields from '@/components/rename-order-book-fields.vue';
 import { GQL_ORDER_BOOK } from '@/graphql/queries';
-import { orderBookMutationMixin } from '@/mixins/order-book-mutation-mixin';
 import AppLayout from '@/layouts/app-layout.vue';
+import { orderBookMutationMixin } from '@/mixins/order-book-mutation-mixin';
 
 export default Vue.extend({
+  mixins: [
+    orderBookMutationMixin,
+  ],
+
   components: {
     AppLayout,
     OrderBookDetailCard,
     RenameOrderBookFields,
   },
-
-  mixins: [
-    orderBookMutationMixin,
-  ],
 
   data() {
     return {

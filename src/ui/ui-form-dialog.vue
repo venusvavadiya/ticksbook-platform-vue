@@ -6,8 +6,9 @@
     v-card(:loading="loading")
       v-card-title {{ title }}
 
-      v-form(@submit.prevent="doneClickHandler")
-        slot
+      v-card-text
+        v-form(@submit.prevent="doneClickHandler")
+          slot
 
       v-card-actions
         v-spacer
