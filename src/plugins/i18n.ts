@@ -19,6 +19,7 @@ const messages = {
     rename: 'Rename',
     noData: 'No data',
     archive: 'Archive',
+    addOrder: 'Add Order',
     unarchive: 'Unarchive',
     orderBook: 'Order Book',
     orderBooks: 'No Order Book | 1 Order Book | {count} Order Books',

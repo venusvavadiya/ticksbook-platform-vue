@@ -1,19 +1,14 @@
 <template lang="pug">
   app-layout
     v-container(v-if="orderBook")
-      v-card
-        v-card-title
-          span {{ orderBook.name }}
-          v-spacer
-
-          v-menu(bottom left)
-            template(#activator="{ on, attrs }")
-              v-btn(icon v-bind="attrs" v-on="on"): v-icon mdi-dots-vertical
-
-            v-list
-              v-list-item(@click="showRenameDialog"): v-list-item-title {{ $t('rename') }}
-              v-list-item(v-if="orderBook.isArchived" @click="unarchive"): v-list-item-title {{ $t('unarchive') }}
-              v-list-item(v-else @click="archive"): v-list-item-title {{ $t('archive') }}
+      order-book-detail-card(
+        :isArchived="orderBook.isArchived"
+        :name="orderBook.name"
+        :orders="orderBook.orders"
+        @click:archive="archive"
+        @click:rename="rename"
+        @click:unarchive="unarchive"
+      )
 
     v-container(v-else): p.text-center.my-12 {{ $t('noData') }}
 
@@ -31,7 +26,9 @@
 </template>
 
 <script>
+// 7300ab8c-835c-4310-9ab8-65d10555814f: HCLTECH22FEB1200PE
 import Vue from 'vue';
+import OrderBookDetailCard from '@/components/order-book-detail-card.vue';
 import RenameOrderBookFields from '@/components/rename-order-book-fields.vue';
 import AppLayout from '@/layouts/app-layout.vue';
 import { GQL_ORDER_BOOK } from '@/graphql/queries';
@@ -44,6 +41,7 @@ import {
 export default Vue.extend({
   components: {
     AppLayout,
+    OrderBookDetailCard,
     RenameOrderBookFields,
   },
 
@@ -103,7 +101,7 @@ export default Vue.extend({
       await this.$apollo.mutate({ mutation: GQL_UNARCHIVE_ORDER_BOOK, variables });
     },
 
-    showRenameDialog() {
+    rename() {
       this.renameDialog.show = true;
       this.renameField.name = this.orderBook.name;
     },
