@@ -6,26 +6,21 @@
         :name="orderBook.name"
         :orders="orderBook.orders"
         @click:archive="archiveOrderBook(orderBook.id)"
-        @click:rename="renameClickHandler"
+        @click:rename="showingRenameDialog = true"
         @click:unarchive="unarchiveOrderBook(orderBook.id)"
       )
 
+      ui-form-dialog(
+        v-model="showingRenameDialog"
+        :title="$t('renameOrderBook')"
+        :hook-done="() => renameOrderBook(orderBook.id, renameField.name)"
+        :hook-reset="() => resetRenameField()"
+      )
+        v-card-text
+          rename-order-book-fields(:name.sync="renameField.name")
+
     v-container(v-else)
       p.text-center.my-12 {{ $t('noData') }}
-
-    ui-dialog(v-model="renameDialog.showing")
-      v-card(:loading="renameDialog.loading")
-        v-card-title {{ $t('renameOrderBook') }}
-
-        v-card-text
-          v-form(@submit.prevent="renameDialogDoneHandler")
-            rename-order-book-fields(:name.sync="renameField.name")
-
-        ui-card-form-actions(
-          :disabled="renameDialog.loading"
-          @click:cancel="renameDialogCancelHandler"
-          @click:done="renameDialogDoneHandler"
-        )
 </template>
 
 <script>
@@ -36,7 +31,6 @@ import OrderBookDetailCard from '@/components/order-book-detail-card.vue';
 import RenameOrderBookFields from '@/components/rename-order-book-fields.vue';
 import { GQL_ORDER_BOOK } from '@/graphql/queries';
 import { orderBookMutationMixin } from '@/mixins/order-book-mutation-mixin';
-import { renameDialogMixin } from '@/mixins/rename-dialog-mixin';
 import AppLayout from '@/layouts/app-layout.vue';
 
 export default Vue.extend({
@@ -48,11 +42,12 @@ export default Vue.extend({
 
   mixins: [
     orderBookMutationMixin,
-    renameDialogMixin,
   ],
 
   data() {
     return {
+      showingRenameDialog: false,
+
       renameField: {
         name: '',
       },
@@ -74,25 +69,6 @@ export default Vue.extend({
   },
 
   methods: {
-    renameClickHandler() {
-      this.showRenameDialog();
-      this.resetRenameField();
-    },
-
-    renameDialogCancelHandler() {
-      this.resetRenameDialog();
-      this.resetRenameField();
-    },
-
-    renameDialogDoneHandler() {
-      this.startRenameDialogLoading();
-      this.renameOrderBook(this.orderBook.id, this.renameField.name)
-        .finally(() => {
-          this.stopRenameDialogLoading();
-          this.resetRenameDialog();
-        });
-    },
-
     resetRenameField() {
       this.renameField.name = this.orderBook.name;
     },
