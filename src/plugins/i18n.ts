@@ -22,7 +22,11 @@ const messages = {
     addOrder: 'Add Order',
     unarchive: 'Unarchive',
     orderBook: 'Order Book',
+    tickerId: 'Ticker Id',
+    orderQuantity: 'Order Quantity',
+    unitPrice: 'Unit Price',
     orderBooks: 'No Order Book | 1 Order Book | {count} Order Books',
+    orders: 'No Orders | 1 Order | {count} Orders',
   },
 };
 

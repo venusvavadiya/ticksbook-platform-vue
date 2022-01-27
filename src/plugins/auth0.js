@@ -37,7 +37,9 @@ function useAuth0({
           onSuccess(appState);
         }
       } catch (e) {
-        await onFailure(e);
+        if (onFailure) await onFailure(e);
+        // eslint-disable-next-line no-console
+        else console.error(e);
       } finally {
         this.isAuthenticated = await this.auth0Client.isAuthenticated();
         this.user = await this.auth0Client.getUser();

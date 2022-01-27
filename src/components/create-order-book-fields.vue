@@ -1,6 +1,6 @@
 <template lang="pug">
   v-row
-    v-col
+    v-col(cols="12")
       ui-text-field(
         :label="$t('name')"
         :value="name"

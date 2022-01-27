@@ -21,8 +21,6 @@ Vue.component('ui-text-field', UITextField);
 Vue.use(auth0, {
   clientId: process.env.VUE_APP_AUTH0_CLIENT_ID,
   domain: process.env.VUE_APP_AUTH0_DOMAIN,
-  // eslint-disable-next-line no-console
-  onFailure: console.log,
 
   async onSuccess(appState) {
     await router.push(appState?.targetUrl ?? window.location.pathname);

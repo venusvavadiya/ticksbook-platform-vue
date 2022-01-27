@@ -23,5 +23,11 @@ module.exports = {
     rules: {
       '@typescript-eslint/explicit-module-boundary-types': 'off',
     },
+  }, {
+    files: ['**/*.vue'],
+    rules: {
+      'import/extensions': 'off',
+      'import/no-unresolved': 'off',
+    },
   }],
 };
