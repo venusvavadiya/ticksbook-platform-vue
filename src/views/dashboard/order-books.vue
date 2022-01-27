@@ -12,31 +12,30 @@
     v-container(v-if="orderBooks.length == 0")
       p.text-center.my-12 {{ $tc('orderBooks', 0) }}
 
-    ui-dialog(v-model="createDialog.show")
-      v-card(:loading="createDialog.loading")
-        v-card-title {{ $t('createOrderBook') }}
+    ui-form-dialog(
+      v-model="showingCreateDialog"
+      :title="$t('createOrderBook')"
+      :hook-done="() => createOrderBook(createField.name)"
+      :hook-reset="() => resetCreateField()"
+    )
+      create-order-book-fields(:name.sync="createField.name")
 
-        v-card-text
-          v-form(@submit.prevent="doneCreateDialog")
-            create-order-book-fields(:name.sync="createField.name")
-
-        v-card-actions
-          v-spacer
-          v-btn(text :disabled="createDialog.loading" @click="cancelCreateDialog") {{ $t('cancel') }}
-          v-btn(text :disabled="createDialog.loading" @click="doneCreateDialog") {{ $t('done') }}
-
-    v-btn(fab fixed bottom right @click="showCreateDialog"): v-icon mdi-plus
+    v-btn(fab fixed bottom right @click="showingCreateDialog = true"): v-icon mdi-plus
 </template>
 
-<script lang="ts">
+<script>
 import Vue from 'vue';
 import CreateOrderBookFields from '@/components/create-order-book-fields.vue';
 import OrderBookList from '@/components/order-book-list.vue';
-import AppLayout from '@/layouts/app-layout.vue';
 import { GQL_ORDER_BOOKS } from '@/graphql/queries';
-import { GQL_CREATE_ORDER_BOOK } from '@/graphql/mutations';
+import AppLayout from '@/layouts/app-layout.vue';
+import { orderBookMutationMixin } from '@/mixins/order-book-mutation-mixin';
 
 export default Vue.extend({
+  mixins: [
+    orderBookMutationMixin,
+  ],
+
   components: {
     AppLayout,
     CreateOrderBookFields,
@@ -45,10 +44,7 @@ export default Vue.extend({
 
   data() {
     return {
-      createDialog: {
-        loading: false,
-        show: false,
-      },
+      showingCreateDialog: false,
 
       createField: {
         name: '',
@@ -70,33 +66,7 @@ export default Vue.extend({
   },
 
   methods: {
-    cancelCreateDialog() {
-      this.resetCreateDialog();
-    },
-
-    async doneCreateDialog() {
-      try {
-        this.createDialog.loading = true;
-        const variables = { orderBookName: this.createField.name };
-        const response = await this.$apollo.mutate({ mutation: GQL_CREATE_ORDER_BOOK, variables });
-        const orderBookId = response.data.createOrderBook;
-        await this.$router.push({ name: 'order-book', params: { id: orderBookId } });
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.log(e);
-      } finally {
-        this.resetCreateDialog();
-      }
-    },
-
-    showCreateDialog() {
-      this.createDialog.show = true;
-      this.createField.name = '';
-    },
-
-    resetCreateDialog() {
-      this.createDialog.loading = false;
-      this.createDialog.show = false;
+    resetCreateField() {
       this.createField.name = '';
     },
   },

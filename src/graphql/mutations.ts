@@ -6,6 +6,22 @@ export const GQL_ARCHIVE_ORDER_BOOK = gql`
   }
 `;
 
+export const GQL_CREATE_ORDER = gql`
+  mutation createOrder(
+    $orderBookId: String!
+    $tickerId: String!
+    $orderQuantity: Int!
+    $unitPrice: Int!
+  ) {
+    createOrder(
+      orderBookId: $orderBookId
+      tickerId: $tickerId
+      orderQuantity: $orderQuantity
+      unitPrice: $unitPrice
+    )
+  }
+`;
+
 export const GQL_CREATE_ORDER_BOOK = gql`
   mutation createOrderBook($orderBookName: String!) {
     createOrderBook(orderBookName: $orderBookName)

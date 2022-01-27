@@ -14,7 +14,20 @@ module.exports = {
   },
   rules: {
     'import/no-extraneous-dependencies': 'off',
+    'import/prefer-default-export': 'off',
     'linebreak-style': 'off',
     'max-len': 'off',
   },
+  overrides: [{
+    files: ['**/*.js'],
+    rules: {
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+    },
+  }, {
+    files: ['**/*.vue'],
+    rules: {
+      'import/extensions': 'off',
+      'import/no-unresolved': 'off',
+    },
+  }],
 };

@@ -15,6 +15,12 @@ export const GQL_ORDER_BOOK = gql`
       id
       name
       isArchived
+      orders {
+        id
+        tickerId
+        orderQuantity
+        unitPrice
+      }
     }
   }
 `;
