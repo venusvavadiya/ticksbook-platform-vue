@@ -42,8 +42,6 @@ import Vue from 'vue';
 import CreateOrderFields from '@/components/create-order-fields.vue';
 import OrderBookDetailCard from '@/components/order-book-detail-card.vue';
 import RenameOrderBookFields from '@/components/rename-order-book-fields.vue';
-import { GQL_ORDER_BOOK } from '@/graphql/queries';
-import { GQL_ORDER_BOOK_UPDATED } from '@/graphql/subscriptions';
 import AppLayout from '@/layouts/app-layout.vue';
 
 export default Vue.extend({
@@ -54,7 +52,10 @@ export default Vue.extend({
     RenameOrderBookFields,
   },
 
-  inject: ['platformMutationService'],
+  inject: [
+    'platformMutationService',
+    'platformQueryService',
+  ],
 
   data() {
     return {
@@ -70,26 +71,23 @@ export default Vue.extend({
       renameField: {
         name: '',
       },
+
+      loadingOrderBook: false,
+      orderBook: null,
     };
   },
 
-  apollo: {
-    orderBook: {
-      query: GQL_ORDER_BOOK,
-      variables() { return { id: this.$route.params.id }; },
-
-      subscribeToMore: {
-        document: GQL_ORDER_BOOK_UPDATED,
-        variables() { return { id: this.$route.params.id }; },
-      },
-    },
-  },
-
-  created() {
-    this.$apollo.queries.orderBook.refetch();
+  async mounted() {
+    await this.loadOrderBook();
   },
 
   methods: {
+    async loadOrderBook() {
+      this.loadingOrderBook = true;
+      this.orderBook = await this.platformQueryService.getOrderBookById(this.$route.params.id);
+      this.loadingOrderBook = false;
+    },
+
     resetCreateOrderField() {
       this.createOrderField.tickerId = '';
       this.createOrderField.orderQuantity = 0;

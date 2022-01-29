@@ -4,7 +4,7 @@
       p.text-center {{ $tc('orderBooks', orderBooks.length) }}
 
       order-book-list(
-        :loading="$apollo.queries.orderBooks.loading"
+        :loading="loadingOrderBooks"
         :order-books="orderBooks"
         route="order-book"
       )
@@ -27,7 +27,6 @@
 import Vue from 'vue';
 import CreateOrderBookFields from '@/components/create-order-book-fields.vue';
 import OrderBookList from '@/components/order-book-list.vue';
-import { GQL_ORDER_BOOKS } from '@/graphql/queries';
 import AppLayout from '@/layouts/app-layout.vue';
 
 export default Vue.extend({
@@ -37,7 +36,10 @@ export default Vue.extend({
     OrderBookList,
   },
 
-  inject: ['platformMutationService'],
+  inject: [
+    'platformMutationService',
+    'platformQueryService',
+  ],
 
   data() {
     return {
@@ -47,22 +49,22 @@ export default Vue.extend({
         name: '',
       },
 
-      orderBooks: [],
+      loadingOrderBooks: false,
+      orderBooks: null,
     };
   },
 
-  apollo: {
-    orderBooks: {
-      query: GQL_ORDER_BOOKS,
-      pollInterval: 5000,
-    },
-  },
-
-  mounted() {
-    this.$apollo.queries.orderBooks.refetch();
+  async mounted() {
+    await this.loadOrderBooks();
   },
 
   methods: {
+    async loadOrderBooks() {
+      this.loadingOrderBooks = true;
+      this.orderBooks = await this.platformQueryService.getOrderBooks();
+      this.loadingOrderBooks = false;
+    },
+
     resetCreateField() {
       this.createField.name = '';
     },
