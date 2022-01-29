@@ -4,6 +4,7 @@ import auth0 from '@/plugins/auth0';
 import i18n from '@/plugins/i18n';
 import router from '@/plugins/router';
 import vuetify from '@/plugins/vuetify';
+import { GraphQLPlatformMutationService } from '@/service/graphql-platform-mutation-service';
 import UIDataTable from '@/ui/ui-data-table.vue';
 import UIDialog from '@/ui/ui-dialog.vue';
 import UIFormDialog from '@/ui/ui-form-dialog.vue';
@@ -34,4 +35,10 @@ new Vue({
   store,
   vuetify,
   render: (h) => h('router-view'),
+
+  provide() {
+    return {
+      platformMutationService: new GraphQLPlatformMutationService(this.$apollo),
+    };
+  },
 }).$mount('#app');

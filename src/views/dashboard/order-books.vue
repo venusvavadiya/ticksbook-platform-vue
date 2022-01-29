@@ -15,7 +15,7 @@
     ui-form-dialog(
       v-model="showingCreateDialog"
       :title="$t('createOrderBook')"
-      :hook-done="() => createOrderBook(createField.name)"
+      :hook-done="() => platformMutationService.createOrderBook(createField.name)"
       :hook-reset="() => resetCreateField()"
     )
       create-order-book-fields(:name.sync="createField.name")
@@ -29,18 +29,15 @@ import CreateOrderBookFields from '@/components/create-order-book-fields.vue';
 import OrderBookList from '@/components/order-book-list.vue';
 import { GQL_ORDER_BOOKS } from '@/graphql/queries';
 import AppLayout from '@/layouts/app-layout.vue';
-import { orderBookMutationMixin } from '@/mixins/order-book-mutation-mixin';
 
 export default Vue.extend({
-  mixins: [
-    orderBookMutationMixin,
-  ],
-
   components: {
     AppLayout,
     CreateOrderBookFields,
     OrderBookList,
   },
+
+  inject: ['platformMutationService'],
 
   data() {
     return {
