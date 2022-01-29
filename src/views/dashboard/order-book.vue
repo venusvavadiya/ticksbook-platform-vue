@@ -43,6 +43,7 @@ import CreateOrderFields from '@/components/create-order-fields.vue';
 import OrderBookDetailCard from '@/components/order-book-detail-card.vue';
 import RenameOrderBookFields from '@/components/rename-order-book-fields.vue';
 import { GQL_ORDER_BOOK } from '@/graphql/queries';
+import { GQL_ORDER_BOOK_UPDATED } from '@/graphql/subscriptions';
 import AppLayout from '@/layouts/app-layout.vue';
 import { orderBookMutationMixin } from '@/mixins/order-book-mutation-mixin';
 import { orderMutationMixin } from '@/mixins/order-mutation-mixin';
@@ -80,9 +81,11 @@ export default Vue.extend({
   apollo: {
     orderBook: {
       query: GQL_ORDER_BOOK,
+      variables() { return { id: this.$route.params.id }; },
 
-      variables() {
-        return { id: this.$route.params.id };
+      subscribeToMore: {
+        document: GQL_ORDER_BOOK_UPDATED,
+        variables() { return { id: this.$route.params.id }; },
       },
     },
   },
