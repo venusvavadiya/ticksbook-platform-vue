@@ -6,15 +6,15 @@
         :name="orderBook.name"
         :orders="orderBook.orders"
         @click:add-order="showingCreateOrderDialog = true"
-        @click:archive="archiveOrderBook(orderBook.id)"
+        @click:archive="platformMutationService.archiveOrderBook(orderBook.id)"
         @click:rename="showingRenameDialog = true"
-        @click:unarchive="unarchiveOrderBook(orderBook.id)"
+        @click:unarchive="platformMutationService.unarchiveOrderBook(orderBook.id)"
       )
 
       ui-form-dialog(
         v-model="showingCreateOrderDialog"
         :title="$t('addOrder')"
-        :hook-done="() => createOrder(orderBook.id, createOrderField.tickerId, createOrderField.orderQuantity, createOrderField.unitPrice)"
+        :hook-done="() => platformMutationService.createOrder(orderBook.id, createOrderField.tickerId, createOrderField.orderQuantity, createOrderField.unitPrice)"
         :hook-reset="() => resetCreateOrderField()"
       )
         create-order-fields(
@@ -26,7 +26,7 @@
       ui-form-dialog(
         v-model="showingRenameDialog"
         :title="$t('renameOrderBook')"
-        :hook-done="() => renameOrderBook(orderBook.id, renameField.name)"
+        :hook-done="() => platformMutationService.renameOrderBook(orderBook.id, renameField.name)"
         :hook-reset="() => resetRenameField()"
       )
         rename-order-book-fields(:name.sync="renameField.name")
@@ -42,23 +42,20 @@ import Vue from 'vue';
 import CreateOrderFields from '@/components/create-order-fields.vue';
 import OrderBookDetailCard from '@/components/order-book-detail-card.vue';
 import RenameOrderBookFields from '@/components/rename-order-book-fields.vue';
-import { GQL_ORDER_BOOK } from '@/graphql/queries';
 import AppLayout from '@/layouts/app-layout.vue';
-import { orderBookMutationMixin } from '@/mixins/order-book-mutation-mixin';
-import { orderMutationMixin } from '@/mixins/order-mutation-mixin';
 
 export default Vue.extend({
-  mixins: [
-    orderBookMutationMixin,
-    orderMutationMixin,
-  ],
-
   components: {
     AppLayout,
     CreateOrderFields,
     OrderBookDetailCard,
     RenameOrderBookFields,
   },
+
+  inject: [
+    'platformMutationService',
+    'platformQueryService',
+  ],
 
   data() {
     return {
@@ -74,24 +71,23 @@ export default Vue.extend({
       renameField: {
         name: '',
       },
+
+      loadingOrderBook: false,
+      orderBook: null,
     };
   },
 
-  apollo: {
-    orderBook: {
-      query: GQL_ORDER_BOOK,
-
-      variables() {
-        return { id: this.$route.params.id };
-      },
-    },
-  },
-
-  created() {
-    this.$apollo.queries.orderBook.refetch();
+  async mounted() {
+    await this.loadOrderBook();
   },
 
   methods: {
+    async loadOrderBook() {
+      this.loadingOrderBook = true;
+      this.orderBook = await this.platformQueryService.getOrderBookById(this.$route.params.id);
+      this.loadingOrderBook = false;
+    },
+
     resetCreateOrderField() {
       this.createOrderField.tickerId = '';
       this.createOrderField.orderQuantity = 0;

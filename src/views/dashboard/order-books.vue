@@ -4,7 +4,7 @@
       p.text-center {{ $tc('orderBooks', orderBooks.length) }}
 
       order-book-list(
-        :loading="$apollo.queries.orderBooks.loading"
+        :loading="loadingOrderBooks"
         :order-books="orderBooks"
         route="order-book"
       )
@@ -15,7 +15,7 @@
     ui-form-dialog(
       v-model="showingCreateDialog"
       :title="$t('createOrderBook')"
-      :hook-done="() => createOrderBook(createField.name)"
+      :hook-done="() => platformMutationService.createOrderBook(createField.name)"
       :hook-reset="() => resetCreateField()"
     )
       create-order-book-fields(:name.sync="createField.name")
@@ -27,20 +27,19 @@
 import Vue from 'vue';
 import CreateOrderBookFields from '@/components/create-order-book-fields.vue';
 import OrderBookList from '@/components/order-book-list.vue';
-import { GQL_ORDER_BOOKS } from '@/graphql/queries';
 import AppLayout from '@/layouts/app-layout.vue';
-import { orderBookMutationMixin } from '@/mixins/order-book-mutation-mixin';
 
 export default Vue.extend({
-  mixins: [
-    orderBookMutationMixin,
-  ],
-
   components: {
     AppLayout,
     CreateOrderBookFields,
     OrderBookList,
   },
+
+  inject: [
+    'platformMutationService',
+    'platformQueryService',
+  ],
 
   data() {
     return {
@@ -50,22 +49,22 @@ export default Vue.extend({
         name: '',
       },
 
-      orderBooks: [],
+      loadingOrderBooks: false,
+      orderBooks: null,
     };
   },
 
-  apollo: {
-    orderBooks: {
-      query: GQL_ORDER_BOOKS,
-      pollInterval: 5000,
-    },
-  },
-
-  mounted() {
-    this.$apollo.queries.orderBooks.refetch();
+  async mounted() {
+    await this.loadOrderBooks();
   },
 
   methods: {
+    async loadOrderBooks() {
+      this.loadingOrderBooks = true;
+      this.orderBooks = await this.platformQueryService.getOrderBooks();
+      this.loadingOrderBooks = false;
+    },
+
     resetCreateField() {
       this.createField.name = '';
     },
